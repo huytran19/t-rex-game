@@ -1,6 +1,5 @@
-import { Vector } from "@/types";
+import { Vector } from "@/Type";
 import { CanvasView } from "@/view/CanvasView";
-
 
 import FLY_DOWN_IMAGE from '../images/bird_down.png'
 import FLY_UP_IMAGE from '../images/bird_up.png'
@@ -45,20 +44,20 @@ export class Obstacle {
         return this.obstacleImage
     }
 
-    Run(type: string): void {
+    run(type: string): void {
         this.flyTime += this.deltaTime
         if (type == "cactus") this.position.x -= this.obstacleSpeed
         
         if (type == "bird") {
             if (this.flyTime > 1) {
                 this.flyTime = 0
-                this.Fly()
+                this.fly()
             }
             
         }
     }
 
-    Fly(): void {
+    fly(): void {
         if (this.isFlyDown) {
             this.obstacleImage.src = FLY_UP_IMAGE
             this.isFlyDown = false

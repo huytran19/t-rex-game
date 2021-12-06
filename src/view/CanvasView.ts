@@ -1,4 +1,4 @@
-import { Vector } from "@/types";
+import { Vector } from "@/Type";
 import { Player, Obstacle, Background } from "@/sprites";
 export class CanvasView {
     canvas: HTMLCanvasElement

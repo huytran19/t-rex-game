@@ -1,4 +1,4 @@
-import { Vector } from "@/types";
+import { Vector } from "@/Type";
 
 export class Background {
     private backgroundImage: HTMLImageElement = new Image()
@@ -31,7 +31,7 @@ export class Background {
         return this.backgroundImage
     }
 
-    Run(gameSpeed: number): void {
+    run(gameSpeed: number): void {
         this.position.x -= gameSpeed
         if (this.position.x < -(this.backgroundWidth/2)) {
             this.position.x = 0

@@ -1,6 +1,5 @@
-import { Vector } from "@/types";
+import { Vector } from "@/Type";
 import { CanvasView } from '../view/CanvasView'
-
 
 import RUN_1 from '../images/trex_run_1.png'
 import RUN_2 from '../images/trex_run_2.png'
@@ -14,16 +13,16 @@ export class Player {
     private image_tRex: string
     private isDuck1: boolean
     private isRun1: boolean
-    private jump: boolean
+    private isJump: boolean
     private duck: boolean
     private dy: number
     private jumpForce: number
     private runWidth: number
     private runHeight: number
-    private run_pos_y: number
+    private runPosY: number
     private grounded: boolean
     private jumpTimer: number
-    private gravity: number
+    private gravityNumber: number
     private runTime: number
     private duckTime: number
     private deltaTime: number
@@ -37,7 +36,7 @@ export class Player {
         this.playerWidth = playerWidth
         this.playerHeight = playerHeight
         this.position = position
-        this.run_pos_y = position.y
+        this.runPosY = position.y
         this.playerImage.src = image
         this.image_tRex = image
         this.imageDuck1 = DUCK_1
@@ -49,10 +48,10 @@ export class Player {
         this.runHeight = playerHeight
         this.runWidth = playerWidth
         this.grounded = false
-        this.jump = false
+        this.isJump = false
         this.duck = false
         this.jumpTimer = 0;
-        this.gravity = 0.7
+        this.gravityNumber = 0.7
         this.duckTime = 0
         this.runTime = 0
         this.deltaTime = 0.0625
@@ -81,16 +80,16 @@ export class Player {
         return this.grounded
     }
 
-    get isJump(): boolean {
-        return this.jump
+    get jumping(): boolean {
+        return this.isJump
     }
 
     handleKeyDown = (e: KeyboardEvent): void => {
-        if (e.code === 'ArrowUp' || e.key === 'ArrowUp' || e.code === 'Space') this.jump = true
+        if (e.code === 'ArrowUp' || e.key === 'ArrowUp' || e.code === 'Space') this.isJump = true
         if (e.code === 'ArrowDown' || e.key === 'ArrowDown') this.duck = true
     }
     handleKeyUp = (e: KeyboardEvent): void => {
-        if (e.code === 'ArrowUp' || e.key === 'ArrowUp' || e.code === 'Space') this.jump = false
+        if (e.code === 'ArrowUp' || e.key === 'ArrowUp' || e.code === 'Space') this.isJump = false
         if (e.code === 'ArrowDown' || e.key === 'ArrowDown') this.duck = false
     }
 
@@ -114,7 +113,7 @@ export class Player {
         } else if (type == "duck") {
             this.playerWidth = this.runWidth * 1.35
             this.playerHeight = this.runHeight * 0.6
-            this.position.y = this.run_pos_y + (this.runHeight * (1-0.6))
+            this.position.y = this.runPosY + (this.runHeight * (1-0.6))
 
             if (this.isDuck1) {
                 this.playerImage.src = DUCK_1
@@ -128,11 +127,11 @@ export class Player {
             }
         }
     }
-    Gravity(view: CanvasView): void {
+    gravity(view: CanvasView): void {
         this.runTime += this.deltaTime
         this.duckTime += this.deltaTime
-        if (this.jump) {
-            this.Jump()
+        if (this.isJump) {
+            this.jump()
         } else {
             this.jumpTimer = 0
         }
@@ -149,7 +148,7 @@ export class Player {
         this.position.y += this.dy 
 
         if (this.position.y + this.playerHeight < view.canvas.height - 20) {
-            this.dy += this.gravity
+            this.dy += this.gravityNumber
             this.grounded = false
             this.playerImage.src = this.image_tRex
         } else {
@@ -164,7 +163,7 @@ export class Player {
         }
     }
 
-    Jump(): void {
+    jump(): void {
         if (this.grounded && this.jumpTimer == 0) {
             this.jumpTimer = 2
             this.dy -= this.jumpForce
